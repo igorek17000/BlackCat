@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 29,
-    "identityHash": "4b7831f4d14082e7ff424424b6bc4eb4",
+    "identityHash": "d11d0964ca104ffe9bca8cd7fea9d604",
     "entities": [
       {
         "tableName": "Profile",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `parent` TEXT, `host` TEXT NOT NULL, `remotePort` INTEGER NOT NULL, `password` TEXT NOT NULL, `method` TEXT NOT NULL, `route` TEXT NOT NULL, `remoteDns` TEXT NOT NULL, `proxyApps` INTEGER NOT NULL, `bypass` INTEGER NOT NULL, `udpdns` INTEGER NOT NULL, `ipv6` INTEGER NOT NULL, `metered` INTEGER NOT NULL, `individual` TEXT NOT NULL, `plugin` TEXT, `udpFallback` INTEGER, `subscription` INTEGER NOT NULL, `tx` INTEGER NOT NULL, `rx` INTEGER NOT NULL, `userOrder` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `catName` TEXT, `host` TEXT NOT NULL, `remotePort` INTEGER NOT NULL, `password` TEXT NOT NULL, `method` TEXT NOT NULL, `route` TEXT NOT NULL, `remoteDns` TEXT NOT NULL, `proxyApps` INTEGER NOT NULL, `bypass` INTEGER NOT NULL, `udpdns` INTEGER NOT NULL, `ipv6` INTEGER NOT NULL, `metered` INTEGER NOT NULL, `individual` TEXT NOT NULL, `plugin` TEXT, `udpFallback` INTEGER, `subscription` INTEGER NOT NULL, `tx` INTEGER NOT NULL, `rx` INTEGER NOT NULL, `userOrder` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -21,8 +21,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "parent",
-            "columnName": "parent",
+            "fieldPath": "catName",
+            "columnName": "catName",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -180,7 +180,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4b7831f4d14082e7ff424424b6bc4eb4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd11d0964ca104ffe9bca8cd7fea9d604')"
     ]
   }
 }

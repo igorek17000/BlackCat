@@ -16,6 +16,10 @@ class CatApp : Application() {
         Core.init(this, MainActivity::class)
         if (!isMain) return
         AppUtils().init(this)
+        ServersObtainer.run {
+            initFasters()
+            initConns()
+        }
     }
 
 }

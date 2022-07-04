@@ -32,7 +32,7 @@ data class Profile(
     var id: Long = 0,
 
     var name: String? = "",
-    var parent: String? = "",
+    var catName: String? = "",
 
     var host: String = "example.shadowsocks.org",
     var remotePort: Int = 8388,

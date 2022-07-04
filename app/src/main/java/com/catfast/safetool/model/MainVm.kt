@@ -5,6 +5,7 @@ import android.net.VpnService
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import com.catfast.safetool.basic.BasicVm
+import com.catfast.safetool.basic.ServersObtainer
 import com.catfast.safetool.basic.TimeDuration
 import com.catfast.safetool.basic.exts.curState
 import com.catfast.safetool.basic.exts.isStateConnected
@@ -42,7 +43,7 @@ class MainVm : BasicVm(), ShadowsocksConnection.Callback {
         } else {
             connStateData.postValue(ConnState.OPENING)
             startTimer(activity, true)
-            //TODO
+            ServersObtainer.switchOn()
         }
     }
 
