@@ -1,6 +1,7 @@
 package com.catfast.safetool.model
 
 import android.app.Activity
+import android.net.VpnService
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import com.catfast.safetool.basic.BasicVm
@@ -29,7 +30,11 @@ class MainVm : BasicVm(), ShadowsocksConnection.Callback {
         connection.disconnect(activity)
     }
 
-    fun toggleTool(activity: Activity) {
+    fun secureSwitch(activity: Activity) {
+        getSecurityPermission(activity)
+    }
+
+    private fun openSwitch(activity: Activity) {
         if (isStateConnected) {
             connStateData.postValue(ConnState.CLOSING)
             startTimer(activity, false)
@@ -39,6 +44,16 @@ class MainVm : BasicVm(), ShadowsocksConnection.Callback {
             startTimer(activity, true)
             //TODO
         }
+    }
+
+    fun onSecurePermit(activity: Activity) {
+        openSwitch(activity)
+    }
+
+    private fun getSecurityPermission(activity: Activity) {
+        val secureIntent = VpnService.prepare(activity)
+        if (secureIntent == null) openSwitch(activity)
+        else activity.startActivityForResult(secureIntent, 9287, null)
     }
 
     private fun startTimer(activity: Activity, isOpen: Boolean) {

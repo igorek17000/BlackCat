@@ -1,5 +1,6 @@
 package com.catfast.safetool.ui
 
+import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatTextView
@@ -24,7 +25,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
     override fun basicClicks() {
         vb.imgConn.setOnClickListener {
             if (sliding.isMenuOpened) sliding.closeMenu()
-            changeUiByConnState(ConnState.values().random())
+            viewModel.secureSwitch(activity)
         }
         vb.btnSet.setOnClickListener {
             sliding.openMenu()
@@ -37,6 +38,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
         }
         vb.btnConn.setOnClickListener {
             if (sliding.isMenuOpened) sliding.closeMenu()
+            viewModel.secureSwitch(activity)
         }
         sliding.layout.findViewById<AppCompatTextView>(R.id.btnContact).setOnClickListener {
 
@@ -50,15 +52,23 @@ class MainActivity : BasicView<ActivityMainBinding>() {
         sliding.layout.findViewById<AppCompatTextView>(R.id.btnUpgrade).setOnClickListener {
 
         }
-
     }
 
     override fun basicObservers() {
-        immersiveStatusBar(vb.appbarLayout)
+        viewModel.connStateData.observe(this) { changeUiByConnState(it) }
     }
 
     override fun basicRunners() {
+        immersiveStatusBar(vb.appbarLayout)
+        viewModel.initConn(activity)
+    }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (RESULT_OK == resultCode) {
+            if (requestCode == 9287) viewModel.onSecurePermit(activity)
+        }
     }
 
     private fun initSliding(): SlidingRootNav {
@@ -103,6 +113,11 @@ class MainActivity : BasicView<ActivityMainBinding>() {
                 vb.imgSwitch.clearAnimation()
             }
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.cancelConn(activity)
+        super.onDestroy()
     }
 
 }
