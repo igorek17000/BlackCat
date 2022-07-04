@@ -28,6 +28,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
             viewModel.secureSwitch(activity)
         }
         vb.btnSet.setOnClickListener {
+            if (vb.btnConn.isEnabled.not()) return@setOnClickListener
             sliding.openMenu()
         }
         vb.bg.setOnClickListener {
@@ -35,6 +36,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
         }
         vb.btnServers.setOnClickListener {
             if (sliding.isMenuOpened) sliding.closeMenu()
+            if (vb.btnConn.isEnabled.not()) return@setOnClickListener
         }
         vb.btnConn.setOnClickListener {
             if (sliding.isMenuOpened) sliding.closeMenu()
@@ -56,6 +58,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
 
     override fun basicObservers() {
         viewModel.connStateData.observe(this) { changeUiByConnState(it) }
+        viewModel.goNext.observe(this) { startActivity(Intent(activity, EndActivity::class.java)) }
     }
 
     override fun basicRunners() {
@@ -93,24 +96,30 @@ class MainActivity : BasicView<ActivityMainBinding>() {
                 vb.animationView.visibility = View.GONE
                 vb.animationView.pauseAnimation()
                 vb.imgSwitch.clearAnimation()
-
+                vb.imgConn.isEnabled = true
+                vb.btnConn.isEnabled = true
             }
             ConnState.OPENING -> {
                 vb.animationView.visibility = View.VISIBLE
                 vb.animationView.playAnimation()
                 vb.imgSwitch.startAnimation(rotate(1000L))
-
+                vb.imgConn.isEnabled = false
+                vb.btnConn.isEnabled = false
             }
             ConnState.CLOSING -> {
                 vb.animationView.visibility = View.VISIBLE
                 vb.animationView.playAnimation()
                 vb.imgSwitch.startAnimation(rotate(1000L))
+                vb.imgConn.isEnabled = false
+                vb.btnConn.isEnabled = false
             }
             ConnState.END -> {
                 vb.imgConn.setImageResource(R.mipmap.ic_disconn)
                 vb.animationView.visibility = View.GONE
                 vb.animationView.pauseAnimation()
                 vb.imgSwitch.clearAnimation()
+                vb.imgConn.isEnabled = true
+                vb.btnConn.isEnabled = true
             }
         }
     }
