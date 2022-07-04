@@ -81,7 +81,7 @@ class SubscriptionService : Service(), CoroutineScope {
                     setContentTitle(getString(R.string.service_subscription_working, 0, urls.size()))
                     setOngoing(true)
                     setProgress(urls.size(), 0, false)
-                    setSmallIcon(R.drawable.ic_logo)
+                    setSmallIcon(R.drawable.logo)
                     setWhen(0)
                 }
                 Core.notification.notify(NOTIFICATION_ID, notification.build())

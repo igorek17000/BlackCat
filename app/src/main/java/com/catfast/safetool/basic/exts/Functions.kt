@@ -1,13 +1,18 @@
 package com.catfast.safetool.basic.exts
 
 import android.animation.ValueAnimator
+import android.app.Application
 import android.content.Context
 import android.graphics.Outline
+import android.os.Build
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.webkit.WebView
+import com.blankj.utilcode.util.ProcessUtils
+import com.catfast.safetool.BuildConfig
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import java.text.DecimalFormat
@@ -57,3 +62,22 @@ fun View.roundCorner(context: Context, radius: Float) {
 
 fun Int.dp2Px(context: Context) = (context.resources.displayMetrics.density * this)
 fun Float.dp2Px(context: Context) = (context.resources.displayMetrics.density * this)
+
+
+val isSDK28: Boolean
+    get() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+    }
+
+val isMain: Boolean
+    get() {
+        return BuildConfig.APPLICATION_ID == if (isSDK28) Application.getProcessName() else ProcessUtils.getCurrentProcessName()
+    }
+
+fun suffixProcessWeb() {
+    if (isSDK28) {
+        Application.getProcessName().let {
+            if (BuildConfig.APPLICATION_ID != it) WebView.setDataDirectorySuffix(it)
+        }
+    }
+}
