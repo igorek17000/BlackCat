@@ -15,6 +15,7 @@ import android.os.Build
 import android.system.Os
 import android.util.Base64
 import android.widget.Toast
+import androidx.annotation.Keep
 import androidx.core.os.bundleOf
 import com.github.shadowsocks.Core
 import com.github.shadowsocks.Core.app
@@ -99,10 +100,11 @@ object PluginManager {
             .build()
     fun buildIntent(id: String, action: String): Intent = Intent(action, buildUri(id))
 
+    @Keep
     data class InitResult(
-            val path: String,
-            val options: PluginOptions,
-            val isV2: Boolean = false,
+        val path: String,
+        val options: PluginOptions,
+        val isV2: Boolean = false,
     )
 
     // the following parts are meant to be used by :bg

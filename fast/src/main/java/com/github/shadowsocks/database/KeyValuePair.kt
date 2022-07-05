@@ -1,16 +1,18 @@
-
 package com.github.shadowsocks.database
 
+import androidx.annotation.Keep
 import androidx.room.*
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 
+@Keep
 @Entity
 class KeyValuePair() {
     companion object {
         const val TYPE_UNINITIALIZED = 0
         const val TYPE_BOOLEAN = 1
         const val TYPE_FLOAT = 2
+
         @Deprecated("Use TYPE_LONG.")
         const val TYPE_INT = 3
         const val TYPE_LONG = 4
@@ -39,16 +41,18 @@ class KeyValuePair() {
         get() = if (valueType == TYPE_BOOLEAN) ByteBuffer.wrap(value).get() != 0.toByte() else null
     val float: Float?
         get() = if (valueType == TYPE_FLOAT) ByteBuffer.wrap(value).float else null
+
     @Suppress("DEPRECATION")
     @Deprecated("Use long.", ReplaceWith("long"))
     val int: Int?
         get() = if (valueType == TYPE_INT) ByteBuffer.wrap(value).int else null
-    val long: Long? get() = when (valueType) {
-        @Suppress("DEPRECATION")
-        TYPE_INT -> ByteBuffer.wrap(value).int.toLong()
-        TYPE_LONG -> ByteBuffer.wrap(value).long
-        else -> null
-    }
+    val long: Long?
+        get() = when (valueType) {
+            @Suppress("DEPRECATION")
+            TYPE_INT -> ByteBuffer.wrap(value).int.toLong()
+            TYPE_LONG -> ByteBuffer.wrap(value).long
+            else -> null
+        }
     val string: String?
         get() = if (valueType == TYPE_STRING) String(value) else null
     val stringSet: Set<String>?
@@ -74,11 +78,13 @@ class KeyValuePair() {
         this.value = ByteBuffer.allocate(1).put((if (value) 1 else 0).toByte()).array()
         return this
     }
+
     fun put(value: Float): KeyValuePair {
         valueType = TYPE_FLOAT
         this.value = ByteBuffer.allocate(4).putFloat(value).array()
         return this
     }
+
     @Suppress("DEPRECATION")
     @Deprecated("Use long.")
     fun put(value: Int): KeyValuePair {
@@ -86,16 +92,19 @@ class KeyValuePair() {
         this.value = ByteBuffer.allocate(4).putInt(value).array()
         return this
     }
+
     fun put(value: Long): KeyValuePair {
         valueType = TYPE_LONG
         this.value = ByteBuffer.allocate(8).putLong(value).array()
         return this
     }
+
     fun put(value: String): KeyValuePair {
         valueType = TYPE_STRING
         this.value = value.toByteArray()
         return this
     }
+
     fun put(value: Set<String>): KeyValuePair {
         valueType = TYPE_STRING_SET
         val stream = ByteArrayOutputStream()
