@@ -6,6 +6,8 @@ import com.catfast.safetool.basic.exts.isMain
 import com.catfast.safetool.basic.exts.suffixProcessWeb
 import com.catfast.safetool.ui.MainActivity
 import com.github.shadowsocks.Core
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
 
 class CatApp : Application() {
 
@@ -16,6 +18,7 @@ class CatApp : Application() {
         Core.init(this, MainActivity::class)
         if (!isMain) return
         AppUtils().init(this)
+//        Firebase.initialize(this)
         ServersObtainer.run {
             initFasters()
             initConns()
