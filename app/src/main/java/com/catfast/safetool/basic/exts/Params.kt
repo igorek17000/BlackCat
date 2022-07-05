@@ -11,3 +11,5 @@ val isStateConnected: Boolean
     get() {
         return BaseService.State.Connected == curState
     }
+const val EMAIL = ""
+const val PRIVACY_URL = ""

@@ -46,16 +46,16 @@ class MainActivity : BasicView<ActivityMainBinding>() {
             viewModel.secureSwitch(activity)
         }
         sliding.layout.findViewById<AppCompatTextView>(R.id.btnContact).setOnClickListener {
-
+            contact()
         }
         sliding.layout.findViewById<AppCompatTextView>(R.id.btnPrivacy).setOnClickListener {
-
+            watchPrivacy()
         }
         sliding.layout.findViewById<AppCompatTextView>(R.id.btnShare).setOnClickListener {
-
+            share()
         }
         sliding.layout.findViewById<AppCompatTextView>(R.id.btnUpgrade).setOnClickListener {
-
+            upgrade()
         }
     }
 
