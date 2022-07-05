@@ -22,7 +22,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
 
     override val vb: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel: MainVm by viewModels()
-    private val sliding by lazy { initSliding() }
+    private lateinit var sliding: SlidingRootNav
 
     override fun basicClicks() {
         vb.imgConn.setOnClickListener {
@@ -78,6 +78,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
 
     override fun basicRunners() {
         immersiveStatusBar(vb.appbarLayout)
+        initSliding()
         viewModel.initConn(activity)
     }
 
@@ -94,8 +95,8 @@ class MainActivity : BasicView<ActivityMainBinding>() {
         }
     }
 
-    private fun initSliding(): SlidingRootNav {
-        return SlidingRootNavBuilder(this)
+    private fun initSliding() {
+        sliding = SlidingRootNavBuilder(this)
             .withGravity(SlideGravity.LEFT)
             .withDragDistance(258)
             .withRootViewScale(0.85f)
