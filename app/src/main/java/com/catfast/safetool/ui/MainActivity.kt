@@ -4,17 +4,19 @@ import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.lifecycle.lifecycleScope
 import com.catfast.safetool.R
 import com.catfast.safetool.basic.BasicView
-import com.catfast.safetool.basic.exts.immersiveStatusBar
-import com.catfast.safetool.basic.exts.rotate
-import com.catfast.safetool.basic.exts.roundCorner
+import com.catfast.safetool.basic.ServersObtainer
+import com.catfast.safetool.basic.exts.*
 import com.catfast.safetool.bean.ConnState
 import com.catfast.safetool.databinding.ActivityMainBinding
 import com.catfast.safetool.model.MainVm
 import com.yarolegovich.slidingrootnav.SlideGravity
 import com.yarolegovich.slidingrootnav.SlidingRootNav
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : BasicView<ActivityMainBinding>() {
 
@@ -37,6 +39,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
         vb.btnServers.setOnClickListener {
             if (sliding.isMenuOpened) sliding.closeMenu()
             if (vb.btnConn.isEnabled.not()) return@setOnClickListener
+            startActivityForResult(Intent(activity, ServersActivity::class.java), 9288, null)
         }
         vb.btnConn.setOnClickListener {
             if (sliding.isMenuOpened) sliding.closeMenu()
@@ -58,7 +61,19 @@ class MainActivity : BasicView<ActivityMainBinding>() {
 
     override fun basicObservers() {
         viewModel.connStateData.observe(this) { changeUiByConnState(it) }
-        viewModel.goNext.observe(this) { startActivity(Intent(activity, EndActivity::class.java)) }
+        viewModel.goNext.observe(this) {
+            lifecycleScope.launch {
+                while (!isViewResume) delay(200L)
+                startActivity(Intent(activity, EndActivity::class.java))
+            }
+        }
+        viewModel.connInfoData.observe(this) {
+            runCatching {
+                val connItem = ServersObtainer.conns.first { item -> item.selected }
+                vb.serverName.text = connItem.name
+                vb.imgServer.setImageResource(getConnImg(connItem.name))
+            }
+        }
     }
 
     override fun basicRunners() {
@@ -71,6 +86,11 @@ class MainActivity : BasicView<ActivityMainBinding>() {
         super.onActivityResult(requestCode, resultCode, data)
         if (RESULT_OK == resultCode) {
             if (requestCode == 9287) viewModel.onSecurePermit(activity)
+            else if (requestCode == 9288) {
+                if (data?.getBooleanExtra("isChangedConn", false) == true) viewModel.secureSwitch(activity)
+                else if (isStateConnected) viewModel.secureSwitch(activity)
+                viewModel.connInfoData.postValue(true)
+            }
         }
     }
 

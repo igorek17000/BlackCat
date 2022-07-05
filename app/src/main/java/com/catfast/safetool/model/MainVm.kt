@@ -18,6 +18,7 @@ import com.github.shadowsocks.bg.BaseService
 class MainVm : BasicVm(), ShadowsocksConnection.Callback {
 
     val connStateData = MutableLiveData<ConnState>()
+    val connInfoData = MutableLiveData<Boolean>()
 
     private var mTimer: CountDownTimer? = null
     private val connection = ShadowsocksConnection(true)
