@@ -33,6 +33,7 @@ data class Profile(
 
     var name: String? = "",
     var catName: String? = "",
+    var catCity: String? = "",
 
     var host: String = "example.shadowsocks.org",
     var remotePort: Int = 8388,

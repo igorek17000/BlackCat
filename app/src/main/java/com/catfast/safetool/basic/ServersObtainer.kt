@@ -69,6 +69,7 @@ object ServersObtainer {
         ProfileManager.createProfile().apply {
             name = app.getString(R.string.app_name)
             catName = connItem.name
+            catCity = connItem.city
             host = connItem.hostName
             password = connItem.pwd
             remotePort = connItem.port

@@ -4,9 +4,12 @@ import android.graphics.Color
 import com.catfast.safetool.R
 import com.catfast.safetool.basic.BasicView
 import com.catfast.safetool.basic.TimeDuration
+import com.catfast.safetool.basic.exts.getConnImg
+import com.catfast.safetool.basic.exts.getConnName
 import com.catfast.safetool.basic.exts.immersiveStatusBar
 import com.catfast.safetool.basic.exts.isStateConnected
 import com.catfast.safetool.databinding.ActivityEndBinding
+import com.github.shadowsocks.Core
 
 class EndActivity : BasicView<ActivityEndBinding>() {
 
@@ -32,6 +35,10 @@ class EndActivity : BasicView<ActivityEndBinding>() {
             vb.imgState.setImageResource(R.mipmap.ic_end_disconn)
             vb.connTime.setTextColor(Color.parseColor("#B8B8B8"))
             vb.connTime.text = TimeDuration.getOpenTimeForStr()
+        }
+        Core.currentProfile?.main?.let {
+            vb.imgServer.setImageResource(getConnImg(it.catName ?: ""))
+            vb.serverName.text = getConnName(it.catName, it.catCity)
         }
     }
 

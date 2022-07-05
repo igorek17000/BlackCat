@@ -11,8 +11,10 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.webkit.WebView
+import androidx.annotation.Keep
 import com.blankj.utilcode.util.ProcessUtils
 import com.catfast.safetool.BuildConfig
+import com.catfast.safetool.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import java.text.DecimalFormat
@@ -81,3 +83,24 @@ fun suffixProcessWeb() {
         }
     }
 }
+
+@Keep
+fun getConnImg(catName: String): Int {
+    return when (catName.lowercase()) {
+        "United States".lowercase() -> R.mipmap.unitedstates
+        "Canada".lowercase() -> R.mipmap.canada
+        "United Kingdom".lowercase() -> R.mipmap.unitedkingdom
+        "Australia".lowercase() -> R.mipmap.australia
+        "Singapore".lowercase() -> R.mipmap.singapore
+        "Japan".lowercase() -> R.mipmap.japan
+        "Germany".lowercase() -> R.mipmap.germany
+        "France".lowercase() -> R.mipmap.france
+        else -> R.drawable.ic_fastcat
+    }
+}
+
+@Keep
+fun getConnName(catName: String?, catCity: String?): String {
+    return if (catCity.isNullOrEmpty()) catName ?: "" else "${catName ?: ""} (${catCity})"
+}
+
