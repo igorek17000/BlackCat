@@ -25,6 +25,7 @@ class MainActivity : BasicView<ActivityMainBinding>() {
     private lateinit var sliding: SlidingRootNav
 
     override fun basicClicks() {
+        initSliding()
         vb.imgConn.setOnClickListener {
             if (sliding.isMenuOpened) sliding.closeMenu()
             viewModel.secureSwitch(activity)
@@ -78,7 +79,6 @@ class MainActivity : BasicView<ActivityMainBinding>() {
 
     override fun basicRunners() {
         immersiveStatusBar(vb.appbarLayout)
-        initSliding()
         viewModel.initConn(activity)
     }
 
