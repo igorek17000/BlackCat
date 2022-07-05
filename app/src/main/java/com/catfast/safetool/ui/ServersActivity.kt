@@ -21,7 +21,7 @@ class ServersActivity : BasicView<ActivityServersBinding>() {
     }
 
     override fun basicRunners() {
-        immersiveStatusBar(vb.appbarLayout)
+        immersiveStatusBar(vb.appbarLayout, false)
         initAdapter()
     }
 

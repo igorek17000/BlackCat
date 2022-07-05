@@ -23,9 +23,9 @@ fun Activity.isExists(): Boolean {
     return !isFinishing && !isDestroyed
 }
 
-fun Activity.immersiveStatusBar(view: View? = null) {
+fun Activity.immersiveStatusBar(view: View? = null, isLightMode: Boolean = true) {
     BarUtils.transparentStatusBar(this)
-    BarUtils.setStatusBarLightMode(this, true)
+    BarUtils.setStatusBarLightMode(this, isLightMode)
     view?.let { BarUtils.addMarginTopEqualStatusBarHeight(it) }
 }
 
